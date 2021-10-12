@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class UsersFrame extends javax.swing.JFrame {
     ArrayList<User> users = new ArrayList<User>();
+    String filename = "Hola.csv";
     /**
      * Creates new form UsersFrame
      */
@@ -57,6 +59,13 @@ public class UsersFrame extends javax.swing.JFrame {
         lblLastName = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
         btnClearFile = new javax.swing.JButton();
+        btnShowEncuestaDialog = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstUsers = new javax.swing.JList<>();
+        lblList = new javax.swing.JLabel();
+        btnGetSelectedItem = new javax.swing.JButton();
+        btnLoadList = new javax.swing.JButton();
+        btnDeleteSelected = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -152,6 +161,48 @@ public class UsersFrame extends javax.swing.JFrame {
             }
         });
 
+        btnShowEncuestaDialog.setText("Encuesta");
+        btnShowEncuestaDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowEncuestaDialogActionPerformed(evt);
+            }
+        });
+
+        lstUsers.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstUsers.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstUsersValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lstUsers);
+
+        lblList.setText("jLabel1");
+
+        btnGetSelectedItem.setText("Get selected item");
+        btnGetSelectedItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetSelectedItemActionPerformed(evt);
+            }
+        });
+
+        btnLoadList.setText("Load");
+        btnLoadList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadListActionPerformed(evt);
+            }
+        });
+
+        btnDeleteSelected.setText("Delete");
+        btnDeleteSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSelectedActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,54 +211,73 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(44, Short.MAX_VALUE))
+                        .addGap(90, 90, 90)
+                        .addComponent(lblId)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblFirstName)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblBirthDate)
-                                    .addGap(6, 6, 6)
-                                    .addComponent(txtBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblAlive)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(chkAlive, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnPrint)
-                            .addComponent(btnClear))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblFirstName)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblBirthDate)
+                                            .addGap(6, 6, 6)
+                                            .addComponent(txtBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblAlive)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chkAlive, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnPrint)
+                                    .addComponent(btnClear))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblLastName)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(46, 46, 46)
+                                        .addComponent(btnClearFile))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblGender)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGap(22, 22, 22)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(radFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(radMale, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(radNone, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnLoad)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnSave)))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnClearFile)
-                                .addGap(55, 55, 55))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblId)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(135, 135, 135))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btnLoad)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnSave))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblLastName)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblGender)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(radMale, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(radFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(radNone, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(btnGetSelectedItem)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblList)
+                                .addContainerGap())
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnShowEncuestaDialog)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(btnLoadList)
+                                            .addGap(37, 37, 37)
+                                            .addComponent(btnDeleteSelected)))
+                                    .addGap(38, 38, 38)))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,46 +285,63 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblId)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnShowEncuestaDialog))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFirstName)
-                            .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblBirthDate)
-                            .addComponent(txtBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblAlive)
-                            .addComponent(chkAlive))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPrint)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFirstName)
+                                    .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblBirthDate)
+                                    .addComponent(txtBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblAlive)
+                                    .addComponent(chkAlive))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPrint)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblLastName)
+                                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblGender)
+                                    .addComponent(radMale))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(radFemale)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(radNone)
+                                            .addComponent(btnLoadList)
+                                            .addComponent(btnDeleteSelected))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                                        .addComponent(btnClearFile)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(btnLoad)
+                                            .addComponent(btnSave)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btnClear)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblLastName)
-                            .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblGender)
-                            .addComponent(radMale))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(radFemale)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(radNone)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnClearFile)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLoad)
-                            .addComponent(btnSave))
-                        .addGap(3, 3, 3)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblList)
+                            .addComponent(btnGetSelectedItem))
+                        .addContainerGap())))
         );
 
         pack();
@@ -271,24 +358,34 @@ public class UsersFrame extends javax.swing.JFrame {
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader("Hola.csv"));
+            users.clear();
+            txaUsers.setText("");
+            in = new BufferedReader(new FileReader(filename));
             String strCurrentLine;
             String res[];
-            txaUsers.setText("");
             while ((strCurrentLine = in.readLine()) != null) {
                 res = strCurrentLine.split(",");
-                LocalDate years = LocalDate.parse(res[3], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                txaUsers.append(res[0] + ": " + res[1] + ", " + res[2] + " - " + (LocalDate.now().getYear() - years.getYear()) + " years old - " + res[4] + " - " + res[5] + "\n");
+                
+                boolean isAlive;
+                if (res[5].equals("Alive")){
+                        isAlive = true;
+                } else {
+                    isAlive = false;
+                }
+                
+                User user = new User(Integer.parseInt(res[0]), res[1], res[2], LocalDate.parse(res[3]), res[4], isAlive);
+                //LocalDate years = LocalDate.parse(res[3], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                //txaUsers.append(res[0] + ": " + res[1] + ", " + res[2] + " - " + (LocalDate.now().getYear() - years.getYear()) + " years old - " + res[4] + " - " + res[5] + "\n");
+                users.add(user);
             }
-        } catch (IOException e) {
+        }catch(FileNotFoundException e){
             e.printStackTrace();
-        } finally {
-            try {
-                if (in != null)
-                    in.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        for (User u: users){
+            txaUsers.append(u.toString());
         }
     }//GEN-LAST:event_btnLoadActionPerformed
 
@@ -324,11 +421,15 @@ public class UsersFrame extends javax.swing.JFrame {
         try{
             birthDate = LocalDate.parse(txtBirthDate.getText(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         }catch(DateTimeParseException pe){
-            System.err.println("Incorrect date or format.\nDate format must be (dd-MM-yyyy)");
+            System.err.println("Incorrect date or format." + System.lineSeparator() + "Date format must be (dd-MM-yyyy)");
             JOptionPane.showMessageDialog(null,
             "Incorrect date or format.\nDate format must be (dd-MM-yyyy)",
             "Error",
             JOptionPane.ERROR_MESSAGE);
+           /*EncuestaDialog errorDate = new EncuestaDialog(this, true);
+            *errorDate.getLblMessage().setText("Incorrect date or format." + System.lineSeparator() + "Date format must be (dd-MM-yyyy)");
+            *errorDate.setVisible(true);
+            */
         }
         
         
@@ -352,12 +453,12 @@ public class UsersFrame extends javax.swing.JFrame {
         //txaUsers.setText(txaUsers.getText() + user.toString());
         users.add(user);
         
-        txaUsers.setText("");
-        for(int i = 0; i < users.size(); i++){
-                txaUsers.append(users.get(i).toString());
-        }
-        
-        //txaUsers.append(user.toString());
+        txaUsers.append(user.toString());   
+       /*txaUsers.setText("");
+        *for(int i = 0; i < users.size(); i++){
+        *        txaUsers.append(users.get(i).toString());
+        *}
+        */
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void txtBirthDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBirthDateActionPerformed
@@ -369,14 +470,17 @@ public class UsersFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFirstNameActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter("Hola.csv"));
-            for(int i = 0; i < users.size(); i++){
-                out.write(users.get(i).toString2());
+        ConfirmSave confirm = new ConfirmSave(this, true);
+        confirm.setVisible(true);
+        if(confirm.getConfirm()){
+            try {
+                BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+                for(int i = 0; i < users.size(); i++)
+                    out.write(users.get(i).toString2());
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -389,13 +493,91 @@ public class UsersFrame extends javax.swing.JFrame {
 
     private void btnClearFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFileActionPerformed
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter("Hola.csv"));
+            BufferedWriter out = new BufferedWriter(new FileWriter(filename));
             out.write("");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnClearFileActionPerformed
+
+    private void btnShowEncuestaDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowEncuestaDialogActionPerformed
+        EncuestaDialog encuesta = new EncuestaDialog(null, false); //true o false, determina si pots actuar amb el frame si esta el dialog obert(true = no)
+        encuesta.getLblMessage().setText("Missatge des del MainFrame");
+        encuesta.setVisible(true);
+    }//GEN-LAST:event_btnShowEncuestaDialogActionPerformed
+
+    private void btnGetSelectedItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetSelectedItemActionPerformed
+        lblList.setText(lstUsers.getSelectedValue());
+    }//GEN-LAST:event_btnGetSelectedItemActionPerformed
+
+    private void lstUsersValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstUsersValueChanged
+        lblList.setText(lstUsers.getSelectedValue());
+    }//GEN-LAST:event_lstUsersValueChanged
+
+    private void btnLoadListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadListActionPerformed
+             BufferedReader in = null;
+        try {
+            users.clear();
+            txaUsers.setText("");
+            in = new BufferedReader(new FileReader(filename));
+            String strCurrentLine;
+            String res[];
+            while ((strCurrentLine = in.readLine()) != null) {
+                res = strCurrentLine.split(",");
+                
+                boolean isAlive;
+                if (res[5].equals("Alive")){
+                        isAlive = true;
+                } else {
+                    isAlive = false;
+                }
+                
+                User user = new User(Integer.parseInt(res[0]), res[1], res[2], LocalDate.parse(res[3]), res[4], isAlive);
+                //LocalDate years = LocalDate.parse(res[3], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                //txaUsers.append(res[0] + ": " + res[1] + ", " + res[2] + " - " + (LocalDate.now().getYear() - years.getYear()) + " years old - " + res[4] + " - " + res[5] + "\n");
+                users.add(user);
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        DefaultListModel usersListModel = new DefaultListModel();
+        
+        for (User u: users){
+            usersListModel.addElement(u.toString());
+        }
+        lstUsers.setModel(usersListModel);
+    }//GEN-LAST:event_btnLoadListActionPerformed
+
+    private void btnDeleteSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSelectedActionPerformed
+        ConfirmSave confirm = new ConfirmSave(this, true);
+        confirm.setVisible(true);
+        if(confirm.getConfirm()){
+            String selectedUser = lstUsers.getSelectedValue();
+
+           /*int lastIndex = selectedUser.indexOf(":");
+            *int selectedUserId = Integer.parseInt(selectedUser.substring(0, lastIndex - 1));
+            */
+            String res[] = selectedUser.split(":");
+            for (int i = 0; i < users.size(); i++){
+                if(users.get(i).getId() == Integer.parseInt(res[0]))
+                    users.remove(users.get(i));
+            }
+
+                try {
+                    BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+                    for(User u: users)
+                        out.write(u.toString2());
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+            }
+        }
+        //buscar en la lista users el objeto User que tiene como Id == selectedUserId y eliminarlo de la lista.
+    }//GEN-LAST:event_btnDeleteSelectedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -435,18 +617,25 @@ public class UsersFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClearFile;
+    private javax.swing.JButton btnDeleteSelected;
+    private javax.swing.JButton btnGetSelectedItem;
     private javax.swing.ButtonGroup btnGroupGenders;
     private javax.swing.JButton btnLoad;
+    private javax.swing.JButton btnLoadList;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnShowEncuestaDialog;
     private javax.swing.JCheckBox chkAlive;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAlive;
     private javax.swing.JLabel lblBirthDate;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblGender;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblLastName;
+    private javax.swing.JLabel lblList;
+    private javax.swing.JList<String> lstUsers;
     private javax.swing.JRadioButton radFemale;
     private javax.swing.JRadioButton radMale;
     private javax.swing.JRadioButton radNone;

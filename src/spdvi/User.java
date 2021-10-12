@@ -5,6 +5,7 @@
  */
 package spdvi;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 /**
  *
  * @author angel
@@ -94,12 +95,13 @@ public class User {
     
 
     public String toString2() {
-        return id + "," + firstName + "," + lastName + "," + birthDate + "," + gender + "," + Alive() + "\n";
+        //String formattedDate = birthDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return id + "," + firstName + "," + lastName + "," + birthDate + "," + gender + "," + Alive() + System.lineSeparator();
     }
     
     @Override
     public String toString() {
-        return id + ": " + firstName + ", " + lastName + " - " + Edad() + " years old - " + gender + " - " + Alive() + "\n";
+        return id + ": " + firstName + ", " + lastName + " - " + Edad() + " years old - " + gender + " - " + Alive() + System.lineSeparator();
     }
     
 }
